@@ -32,13 +32,30 @@ ggplot(data = Aggregate_data,aes(x = Gender,y = Purchase,fill = Gender)) + geom_
 # Hence the males are the one who make maximum purchases during black friday.
 
 head(mainData)
-# 2) Which male age group make the maximum purchases?
+# 2) Which age group make the maximum purchases?
 
-main_Data2 <- mainData[,c(3,4)]
+main_Data2 <- mainData[,c(3,4,12)]
 head(main_Data2)
 
-subset_data1 <- subset(main_Data2,main_Data2$Gender == "M")
-head(subset_data1)
+#subset_data1 <- subset(main_Data2,main_Data2$Gender == "M")
+#head(subset_data1,20)
+
+Aggregate_Data1 <- aggregate(Purchase ~ Age + Gender,data = main_Data2,FUN = sum)
+Aggregate_Data1
+
+# Create a lollipop chart .
+#ggplot(data = Aggregate_Data1,aes(x = Age,y = Purchase,fill = Gender)) + geom_bar(stat = "identity",position = "dodge")
 
 
+
+
+
+
+
+ggplot(Aggregate_Data1)+
+  geom_linerange(aes(x = Age, ymin = 0, ymax = Purchase, colour = Gender), 
+                 position = position_dodge(width = 1))+
+  geom_point(aes(x = Age, y = Purchase, colour = Gender),
+             position = position_dodge(width = 1)) + theme_classic()
+ 
 
